@@ -1,78 +1,47 @@
-# 🏗️ Prototipos de Visión Computacional: Aplicaciones Clásicas
+# Detección de Granos Maduros de Café con Aprendizaje No Supervisado 
+### By: Juan José Zuluaga y Juan Sebastián Pacheco
+
+## 📌 Descripción de la aplicación y objetivos
+
+Este proyecto tiene como objetivo implementar una herramienta automatizada para detectar granos maduros de café en imágenes de cafetos mediante técnicas de aprendizaje no supervisado. La necesidad surge en el contexto de la industria cafetera, donde una estimación precisa del estado de madurez de los granos es crucial para la planificación de la cosecha, la logística y el cumplimiento de contratos de exportación.
+
+El modelo desarrollado busca reemplazar métodos tradicionales de muestreo manual, que resultan costosos e imprecisos, por un sistema que analiza imágenes y determina automáticamente la presencia de granos maduros.
 
 ---
 
-## 📖 Descripción  
+## 🧠 Temas aplicados
 
-En este repositorio, los estudiantes implementarán una aplicación práctica de visión computacional, combinando al menos cinco de los temas vistos en clase, mediante un pipeline completo de procesamiento de imágenes y aprendizaje automático.
+Este proyecto aplica diversos conceptos de visión computacional y machine learning, principalmente:
 
-Cada equipo definirá un caso de uso realista (por ejemplo, detección de plagas, madurez de frutas, defectos en manufactura, segmentación de color, entre otros), recopilará o seleccionará imágenes relevantes, y desarrollará un sistema funcional que clasifique, segmente o analice dichas imágenes.
-
----
-
-## 📋 Instrucciones de Entrega  
-
-### **1️⃣ Clonar el Repositorio**  
-Cada grupo debe clonar este repositorio en su máquina local:  
-
-```bash 
-git clone https://github.com/adgodoyo/Classic_Computer_Vision.git
-cd Classic_Computer_Vision
-```
-
-### **2️⃣ Crear una Nueva Rama**  
-Cada grupo debe trabajar en su propia rama, nombrada de la siguiente manera:  
-📌 **Formato:** `grupoX_nombre1_nombre2`  
-
-Ejemplo:  
-
-```bash
-git checkout -b grupo1_juan_maria
-git push origin grupo1_juan_maria
-```
-
-### **3️⃣ Estructura del Proyecto**  
-
-Cada equipo debe organizar su entrega con la siguiente estructura:  
-
-📌 **Formato:** `Objetivo_Prototipo_Integrante1_Integrante2/`  
-
-Ejemplo para un grupo conformado por "JuanOrtiz" y "MaríaGodoy", que trabajan en detección de frutas maduras:  
-
-```bash
-📂 Classic_Computer_Vision/
-│── 📁 DetecciónMaduración_JuanOrtiz_MariaGodoy/         # Carpeta del grupo
-│   │── 📁 imagenes/       # Carpeta con las imágenes usadas
-│   │── 📂 src/            # Código en Python
-│   │── 📜 video.mpeg     # Explicación breve del proceso y resultados
-│   │── 📜 README.md       # Explicación según los parámetros del taller
-│── 📁 OtroGrupo/          # Otra entrega de un equipo distinto
-│── 📜 README.md           # Archivo principal del repositorio
-```
-El nombre de la carpeta no puede ir con espacios, puntos y considere que la primera letra del nombre y apellido va en mayúscula (el resto en minúscula)
-
-📌 **Nota:** Todas las imágenes utilizadas deben estar en la carpeta `imagenes/`, si bien puede crear subcarpetas dentro de ella.  
+- **Preprocesamiento de imágenes**:
+  - Aplicación de filtros de suavizado y detección de bordes para facilitar la segmentación.
+- **Segmentación**:
+  - Identificación de los píxeles que corresponden a granos maduros mediante el espacioo de color LAB (principalmente en el rango de color rojo, es decir, el canal A).
+- **Aprendizaje no supervisado**:
+  - Uso de **KMeans**, adaptado mediante un `Pipeline` de `sklearn`, para clasificar los colores presentes en la imagen.
+- **Transformadores personalizados**:
+  - Implementación de una clase propia que hereda de `BaseEstimator` y `TransformerMixin` para adaptar el uso de `cv2.KMeans` a la estructura de `sklearn.pipeline`.
+- **Procesamiento de contornos**:
+  - Detección y dibujo de contornos para destacar los granos sobre la imagen original.
 
 ---
 
-## 📤 Subida de Archivos  
+## 📊 Métricas y discusión de resultados
 
-### **1️⃣ Agregar los archivos al repositorio**  
-Una vez completado el trabajo, subir los archivos al repositorio en la rama del equipo:  
+La evaluación del sistema se realizó de manera visual, analizando el resultado de la segmentación y la cantidad de granos detectados en diversas imágenes de prueba. Los resultados muestran una segmentación efectiva de los granos maduros, especialmente en imágenes con buena iluminación y contraste.
 
-```bash
-git add .
-git commit -m "Entrega del proyecto por grupo1_juan_maria"
-git push origin grupo1_juan_maria
-```
-
-### **2️⃣ Crear un Pull Request (PR)**  
-1. Ir al repositorio en GitHub.  
-2. Hacer clic en **"Pull Requests"** → **"New Pull Request"**.  
-3. Seleccionar **`grupo1_juan_maria` → `main`**.  
-4. Agregar una breve descripción y enviar la solicitud.  
+Algunos puntos destacados:
+- El modelo responde bien a la identificación de tonos rojizos característicos del grano maduro.
+- La detección mediante contornos permite contar y visualizar los granos de forma clara.
+- La precisión puede verse afectada por condiciones de iluminación extremas o solapamiento de objetos similares en color.
 
 ---
 
+## 📚 Referencias y herramientas especiales
 
-
+- **Librerías utilizadas**:
+  - `opencv-python (cv2)`
+  - `numpy`, `matplotlib`
+  - `scikit-learn`
+- **Uso especial**:
+  - Se creó una clase personalizada que hereda de `BaseEstimator` y `TransformerMixin` para poder incluir `cv2.KMeans` dentro de un `Pipeline` de `scikit-learn`. Esto permite estructurar de manera modular y extensible el flujo de transformación y clustering, facilitando su integración y ajuste.
